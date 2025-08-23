@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema(
       type: Number,
       min: [0, 'Age cannot be negative'],
     },
+    gender: {
+      type: String,
+      validate: {
+        validator: (value) =>
+          ['male', 'female', 'other'].includes(value.toLowerCase()),
+        message: 'Gender data is not valid',
+      },
+    },
     password: {
       type: String,
       required: [true, 'Password is required'],
