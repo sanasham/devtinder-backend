@@ -1,31 +1,31 @@
 import express from 'express';
-import { registerUser } from '../controller/userController.js';
-
+import {
+  changePassword,
+  loginUser,
+  logoutUser,
+  resetPassword,
+} from '../controller/authController.js';
+import { getUserProfile, registerUser } from '../controller/userController.js';
+import { authenticateToken } from '../middleware/authMiddleware.js';
 const authRouter = express.Router();
-authRouter.get('/', (req, res) => {
-  console.log('root');
-  res.send('Root Page');
-});
-authRouter.post('/login', (req, res) => {
-  res.send('Login Page');
-});
+
+authRouter.get('/', (req, res) => res.send('Root Page'));
+
 authRouter.post('/register', registerUser);
-authRouter.get('/logout', (req, res) => {
-  res.send('Logout Page');
-});
-authRouter.post('/forgot-password', (req, res) => {
-  res.send('Forgot Password Page');
-});
-authRouter.post('/reset-password', (req, res) => {
-  res.send('Reset Password Page');
-});
-authRouter.get('/profile', (req, res) => {
-  res.send('User Profile Page');
-});
-authRouter.put('/update-profile', (req, res) => {
-  res.send('Update Profile Page');
-});
-authRouter.delete('/delete-account', (req, res) => {
-  res.send('Delete Account Page');
-});
+authRouter.post('/login', loginUser);
+// // authRouter.post('/refresh', refreshAccessToken);
+authRouter.post('/logout', authenticateToken, logoutUser); // ⬅️ Changed to POST
+
+authRouter.post('/forgot-password', changePassword);
+authRouter.post('/reset-password', resetPassword);
+
+// // ✅ User profile routes
+authRouter.get('/profile', authenticateToken, getUserProfile);
+// authRouter.put('/update-profile', (req, res) => {
+//   res.send('Update Profile Page');
+// });
+// authRouter.delete('/delete-account', (req, res) => {
+//   res.send('Delete Account Page');
+// });
+
 export default authRouter;
