@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  changePassword,
+  forgotPassword,
   loginUser,
   logoutUser,
   resetPassword,
@@ -16,7 +16,7 @@ authRouter.post('/login', loginUser);
 // // authRouter.post('/refresh', refreshAccessToken);
 authRouter.post('/logout', authenticateToken, logoutUser); // ⬅️ Changed to POST
 
-authRouter.post('/forgot-password', changePassword);
+authRouter.post('/forgot-password', forgotPassword);
 authRouter.post('/reset-password', resetPassword);
 
 // // ✅ User profile routes
